@@ -7,7 +7,8 @@ queries = {
     getUsername: "SELECT username FROM profiles WHERE username = ?",
     createUser: "INSERT INTO profiles (username, password, salt, email) VALUES ?",
     createRoom: "INSERT INTO chatrooms (name) VALUES ?",
-    getData: "SELECT ? FROM ? WHERE ? = ?"
+    getData: "SELECT ? FROM ? WHERE ? = ?",
+    chatroomMessages: "SELECT text FROM messages WHERE chatroom_Id = ? ORDER BY createdAt DESC LIMIT 20"
 }
 
 // Returns connection  -  if there is no connection it makes and return the connection to the db
@@ -40,6 +41,12 @@ makeQuery = (query, val, callback) => {
 
 
 //=========== QUERIES  =============//
+exports.chatroomMessages = (chatroom_Id) => {
+    makeQuery(queries.chatroomMessages, chatroom_Id, (err,res) => {
+        if (err) console.log(err);
+        console.log(res);
+    });
+}
 exports.getData = (data, col, table) => {
     let values = [col, table, col, data];
     makeQuery(queries.getData, values, (err, result) => {
