@@ -1,7 +1,4 @@
 module.exports = {
-	
-	// Port
-	// On which port will the app listen. Defaults to 3000
 	port : 4444,
 	address: 'localhost',
 

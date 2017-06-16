@@ -1,14 +1,13 @@
 const config = require('./config');
+const mysql = require('mysql');
 var pool = null;
-var mysql = require('mysql');
 
 queries = {
-    getEmai: "SELECT email FROM profiles WHERE email = ?",
-    getUsername: "SELECT username FROM profiles WHERE username = ?",
-    createUser: "INSERT INTO profiles (username, password, salt, email) VALUES ?",
+    emailExists: "SELECT * FROM profiles WHERE email = ?",
+    usernameExists: "SELECT * FROM profiles WHERE username = ?",
+    createUser: "INSERT INTO profiles (username, hash, email) VALUES (?, ?, ?)",
     createRoom: "INSERT INTO chatrooms (name) VALUES ?",
-    getData: "SELECT ? FROM ? WHERE ? = ?",
-    chatroomMessages: "SELECT text FROM messages WHERE chatroom_Id = ? ORDER BY createdAt DESC LIMIT 20"
+    getChatroomMessages: "SELECT text FROM messages WHERE chatroom_Id = ? ORDER BY createdAt DESC LIMIT 20"
 }
 
 // Returns connection  -  if there is no connection it makes and return the connection to the db
@@ -25,14 +24,13 @@ getPool = () => {
 getConn = (callback) => {
     getPool().getConnection((err, connection) => {
         callback(err, connection);
-        connection.release();
     });
 };
 
 makeQuery = (query, val, callback) => {
-    getConn((err, conn) => {
+    getConn((err, connection) => {
         if (err) console.log(err);
-        conn.query(query, val, (err, result) => {
+        connection.query(query, val, (err, result) => {
             if (err) console.log(err);
             callback(err, result);
         });
@@ -41,23 +39,45 @@ makeQuery = (query, val, callback) => {
 
 
 //=========== QUERIES  =============//
-exports.chatroomMessages = (chatroom_Id) => {
-    makeQuery(queries.chatroomMessages, chatroom_Id, (err,res) => {
-        if (err) console.log(err);
-        console.log(res);
-    });
+exports.emailExists = (email) => {
+    makeQuery(queries.emailExists, [email], function (err, result) {
+        if ([result].count < 1) {
+            return false;
+        } else {
+            return true;
+        }
+    })
 }
-exports.getData = (data, col, table) => {
-    let values = [col, table, col, data];
-    makeQuery(queries.getData, values, (err, result) => {
-        if (err) console.log(err);
-        return result;
+
+exports.usernameExists = (username) => {
+    makeQuery(queries.usernameExists, [username], function (err, result) {
+        if ([result].count < 1) {
+            return false;
+        } else {
+            return true;
+        }
+    })
+}
+
+exports.createUser = (username, hash, email) => {
+    let values = [username, hash, email];
+    makeQuery(queries.createUser, values, (err, result) => {
+        console.log('===== User registered ====')
+        console.log(result);
     });
 }
 
-exports.createUser = (username, password, salt, email) => {
-    values = [username, password, salt, email];
-    makeQuery(queries.createUser, values, (err, res) => {
+exports.getUserDataByName = (username, callback) => {
+    makeQuery(queries.usernameExists, [username], (err, result) => {
+        if (err) console.log(err);
+        if (callback && typeof(callback) === "function") {
+            callback(err, result[0]);
+        }
+    })
+}
+
+exports.chatroomMessages = (chatroom_Id) => {
+    makeQuery(queries.getChatroomMessages, chatroom_Id, (err,res) => {
         if (err) console.log(err);
         console.log(res);
     });
@@ -69,4 +89,3 @@ exports.createRoom = (name) => {
         console.log(res);
     });
 }
-module.exports

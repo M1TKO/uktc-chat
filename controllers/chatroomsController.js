@@ -1,7 +1,9 @@
-var mysql = require('mysql');
-var db = require('../db');
-var bodyParser = require('body-parser');
-
+const mysql = require('mysql');
+const db = require('../db');
+const bodyParser = require('body-parser');
+const msg = {
+		text: req.body.text
+		};
 function index(){
     
 };
@@ -17,7 +19,11 @@ function sendInvitation(){
 };
 
 function sendMessage(){
-
+let length = db.getData(text, 'text', 'messages');
+		if (length > 0) return true;
+		else return false;
+		let profiles_Id =1;
+		db.query(queries.insertMsg, chatroom_Id[], profiles_Id[], text[]);
 };
 
 function chatRoomMessages(){

@@ -64,14 +64,13 @@ CREATE TABLE `messages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `profile`
+-- Table structure for table `profiles`
 --
 
 CREATE TABLE `profiles` (
   `id` int(5) NOT NULL,
   `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `salt` char(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `hash` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -98,9 +97,9 @@ ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `profile`
+-- Indexes for table `profiles`
 --
-ALTER TABLE `profile`
+ALTER TABLE `profiles`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -123,9 +122,9 @@ ALTER TABLE `chatrooms`
 ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `profile`
+-- AUTO_INCREMENT for table `profiles`
 --
-ALTER TABLE `profile`
+ALTER TABLE `profiles`
   MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

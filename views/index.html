@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Chat Room</title>
-	<link rel="stylesheet" href="styles.css">
-	<meta name="viewport" content="width=device-width, initialscale=1.0">
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initialscale=1.0">
 </head>
 <body background="hope.jpg">
 <h1 style="text-align: center;">Welcome to Chat Room</h1>
 <div id="left_div">
-	
-	<h2>Login</h2>
-<div id="inputs">
-	<input type="text" id="username" placeholder="Your Email.."><br>
-	<input type="text" id="password" placeholder="Your Password.."><br>
-</div>
-	
-	
-<dir id="forms">
-<form>
-	<button type="submit">Login</button>
-</form>
-<form action="Register/index.html">
-	<button type="submit">Register</button>
-</form>
-<form>
-	<button type="submit">Anonymous mode</button>
-</form>
 
-</dir>
+    <h2>Login</h2>
+    <div id="inputs">
+        <form method="POST">
+            <input type="text" id="username" value="User_Acc789" name="username" placeholder="Your username.."><br>
+            <input type="text" id="password" value="Pa$$word123" name="password" placeholder="Your Password.."><br>
+            <button type="submit">Login</button>
+
+        </form>
+    </div>
+
+
+    <dir id="forms">
+
+        <form action="Register/index.html">
+            <button type="submit">Register</button>
+        </form>
+        <form>
+            <button type="submit">Anonymous mode</button>
+        </form>
+
+    </dir>
 </div>
 <div id="right_div">
-	some random text hue hue huehue heuheu
+    some random text hue hue huehue heuheu
 </div>
 </body>
 </html>
